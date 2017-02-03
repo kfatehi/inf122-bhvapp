@@ -6,9 +6,9 @@ build:
 
 run: build
 	@echo "Running..."
-	@java -classpath out/production/behave-app com.company.Main
+	@java -classpath out/production/behave-app com.company.Main config.properties
 	@echo "\nRun ended."
 
 autorun:
 	@echo "Waiting for source files to change..."
-	@fswatch -o src | xargs -n1 -I{} make run
+	@fswatch -o src -o config.properties | xargs -n1 -I{} make run
