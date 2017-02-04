@@ -2,8 +2,6 @@ package com.company;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Properties;
 import java.util.Scanner;
 
 /**
@@ -11,42 +9,81 @@ import java.util.Scanner;
  */
 public class TextUserInterface implements UserInterface {
     private Scanner scanner = new Scanner(System.in);
-    private String userType;
+    private boolean interactive = true;
 
     @Override
     public void start() {
+        String frontend = System.getenv("BEHAVE_FRONTEND");
+        if (frontend != null && frontend.equals("noninteractive")) {
+            interactive = false;
+        }
+
         System.out.println("Welcome to Behave! Enter ? at any time for help");
         while (true) {
             prompt();
-            String cmd = scanner.next();
-            if (cmd.equals("?")) {
-                showHelp(userType);
-            } else if (cmd.equals("quit")) {
-                System.exit(0);
-            } else if (Main.currentUser != null) {
-                if (cmd.equals("logout")) {
-                    Main.currentUser = null;
-                    System.out.println("you have been logged out");
-                } else if (userType.equals("parent")) {
-                    if (cmd.equals("add-child")) {
-                        parentAddChild();
+            try {
+                String cmd = getToken();
+                if (cmd.equals("?")) {
+                    showHelp();
+                } else if (cmd.equals("quit")) {
+                    System.exit(0);
+                } else if (isLoggedIn()) {
+                    if (cmd.equals("logout")) {
+                        logout();
+                    } else if (getUserType().equals("Parent")) {
+                        if (cmd.equals("add-child")) {
+                            parentAddChild();
+                        } else {
+                            unrecognizedCommand(cmd);
+                        }
+                    } else if (getUserType().equals("Child")) {
+                        if (cmd.equals("tokens")) {
+                            childViewTokens();
+                        } else {
+                            unrecognizedCommand(cmd);
+                        }
+                    } else {
+                        unrecognizedCommand(cmd);
                     }
-                } else if (userType.equals("child")) {
-                    if (cmd.equals("tokens")) {
-                        childViewTokens();
-                    }
-                }
-            } else {
-                if (cmd.equals("login")) {
+                } else if (cmd.equals("login")) {
                     login();
+                } else {
+                    unrecognizedCommand(cmd);
                 }
+            } catch (java.util.NoSuchElementException e) {
+                System.exit(0);
             }
         }
     }
 
+    private void unrecognizedCommand(String cmd) {
+        System.out.println(red("unrecognized command "+cmd));
+    }
+
+    private String red(String str) {
+        return (char)27 + "[31m"+str + (char)27 + "[0m";
+    }
+
+    private String getToken() {
+        String cmd = scanner.next();
+        if (!interactive) {
+            System.out.println(cmd);
+        }
+        return cmd;
+    }
+
+    private void logout() {
+        Main.currentUser = null;
+        System.out.println("you have been logged out");
+    }
+
+    private boolean isLoggedIn() {
+        return Main.currentUser != null;
+    }
+
     private void prompt() {
-        if (Main.currentUser != null) {
-            System.out.print("["+Main.currentUser.getUsername()+"|"+userType+"]$ ");
+        if (isLoggedIn()) {
+            System.out.print("["+Main.currentUser.getUsername()+"|"+ getUserType() +"]$ ");
         } else {
             System.out.print("$ ");
         }
@@ -54,13 +91,13 @@ public class TextUserInterface implements UserInterface {
 
     private void login() {
         System.out.print("Enter your username: ");
-        String username = scanner.next();
+        String username = getToken();
 
-        userType = Main.props.getProperty("users."+username+".type");
+        String userType = Main.props.getProperty("users."+username+".type");
         if (userType != null) {
-            if (userType.equals("parent")){
+            if (userType.equals("Parent")){
                 Main.currentUser = new Parent(username);
-            } else if (userType.equals("child")) {
+            } else if (userType.equals("Child")) {
                 Main.currentUser = new Child(username);
             }
         } else {
@@ -82,23 +119,23 @@ public class TextUserInterface implements UserInterface {
 
     private void parentAddChild() {
         System.out.print("Enter child's name: ");
-        String newChildsName = scanner.next();
+        String newChildsName = getToken();
         Child newChild = new Child(newChildsName);
         Parent parent = (Parent) Main.currentUser;
         parent.addChild(newChild);
         Main.props.setProperty("users." + newChildsName + ".type", "child");
         try {
             Main.saveProps();
-            System.out.println("Added child: " + newChildsName);
+            System.out.println("Added child " + newChildsName);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void showHelp(String userType) {
+    private void showHelp() {
         System.out.println("?                         show this information");
-        if (Main.currentUser != null) {
-            if (userType.equals("parent")) {
+        if (isLoggedIn()) {
+            if (getUserType().equals("Parent")) {
                 System.out.println("add-child                 add a child");
                 System.out.println("edit-child                edit a child");
                 System.out.println("delete-child              delete child");
@@ -110,7 +147,7 @@ public class TextUserInterface implements UserInterface {
                 System.out.println("set-redemption            define, per child, the number of tokens required for redemption and (optionally) what the tokens will be redeemed for");
                 System.out.println("set-mode                  define one mode per child");
                 System.out.println("schedule                  schedule tokens to be automatically added periodically (e.g., one per day)");
-            } else if (userType.equals("child")) {
+            } else if (getUserType().equals("Child")) {
                 System.out.println("tokens                    view the status of your tokens (number of tokens and info about each token)");
                 System.out.println("redeem                    redeem your tokens for a reward (positive mode)");
             }
@@ -119,5 +156,9 @@ public class TextUserInterface implements UserInterface {
             System.out.println("login                     login");
         }
         System.out.println("quit                      quit the program");
+    }
+
+    private String getUserType() {
+        return Main.currentUser.getClass().getSimpleName();
     }
 }
