@@ -9,6 +9,6 @@ run: build
 	@java -classpath out/production/behave-app com.company.Main config.properties
 	@echo "\nRun ended."
 
-autorun:
+autorun: run
 	@echo "Waiting for source files to change..."
 	@fswatch -o src -o config.properties | xargs -n1 -I{} make run

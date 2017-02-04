@@ -1,5 +1,7 @@
 package com.company;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,20 +13,27 @@ public class Main {
     static User currentUser;
     static ArrayList<User> children = new ArrayList<>(); // XXX changed this from "users" to "children" to make it more semantic
     static UserInterface userInterface; // XXX had to change this due to "interface" being a reserved word in the IDE
+    private static String propsFile;
+    static Properties props = new Properties();
 
     public static void main(String[] args) {
-        Properties props = new Properties();
         try {
-            props.load(new FileReader(args[0]));
+            loadProps(args[0]);
+            loadUserInterface(props);
+            loadChildren(props);
+            userInterface.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        currentUser = new User(props.getProperty("user", "user"));
-        loadUserInterface(props);
-        loadChildren(props);
-        while (String cmd = userInterface.getCommand()) {
+    }
 
-        }
+    private static void loadProps(String _propsFile) throws IOException {
+        propsFile = _propsFile;
+        props.load(new FileReader(propsFile));
+    }
+
+    public static void saveProps() throws IOException {
+        props.store(new FileOutputStream(propsFile), null);
     }
 
     private static void loadChildren(Properties props) {
@@ -44,9 +53,5 @@ public class Main {
         } else {
             throw new Error("UI mode not implemented: "+uiMode);
         }
-    }
-
-    void parseCommand() {
-
     }
 }
