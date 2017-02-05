@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e46c7cdf-76f2-44d8-88c8-882780cb5214" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/company/ChildData.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.properties" afterPath="$PROJECT_DIR$/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Child.java" afterPath="$PROJECT_DIR$/src/com/company/Child.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Parent.java" afterPath="$PROJECT_DIR$/src/com/company/Parent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/TextUserInterface.java" afterPath="$PROJECT_DIR$/src/com/company/TextUserInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/TokenManager.java" afterPath="$PROJECT_DIR$/src/com/company/TokenManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/User.java" afterPath="$PROJECT_DIR$/src/com/company/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.sh" afterPath="$PROJECT_DIR$/test.sh" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -30,14 +22,26 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="45" column="46" lean-forward="false" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
+            <state relative-caret-position="225">
+              <caret line="59" column="55" lean-forward="false" selection-start-line="59" selection-start-column="55" selection-end-line="59" selection-end-column="55" />
               <folding>
-                <element signature="e#2882#2883#0" expanded="true" />
-                <element signature="e#2949#2950#0" expanded="true" />
+                <element signature="e#2884#2885#0" expanded="true" />
+                <element signature="e#2951#2952#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="test.sh" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/test.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+              <folding>
+                <marker date="1486336268000" expanded="true" signature="207:219" ph="..." />
               </folding>
             </state>
           </provider>
@@ -46,11 +50,27 @@
       <file leaf-file-name="TokenManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/TokenManager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="12" column="23" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+            <state relative-caret-position="120">
+              <caret line="10" column="57" lean-forward="false" selection-start-line="10" selection-start-column="57" selection-end-line="10" selection-end-column="57" />
               <folding>
-                <element signature="e#257#258#0" expanded="true" />
-                <element signature="e#288#289#0" expanded="true" />
+                <element signature="e#290#291#0" expanded="true" />
+                <element signature="e#321#322#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Parent.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/Parent.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="18" column="33" lean-forward="false" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#267#268#0" expanded="true" />
+                <element signature="e#323#324#0" expanded="true" />
+                <element signature="e#368#369#0" expanded="true" />
+                <element signature="e#430#431#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -91,11 +111,11 @@
         <option value="$PROJECT_DIR$/src/com/company/User.java" />
         <option value="$PROJECT_DIR$/src/com/company/Child.java" />
         <option value="$PROJECT_DIR$/src/com/company/TextUserInterface.java" />
-        <option value="$PROJECT_DIR$/test.sh" />
+        <option value="$PROJECT_DIR$/config.properties" />
+        <option value="$PROJECT_DIR$/src/com/company/TokenManager.java" />
         <option value="$PROJECT_DIR$/src/com/company/Parent.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/company/TokenManager.java" />
-        <option value="$PROJECT_DIR$/config.properties" />
+        <option value="$PROJECT_DIR$/test.sh" />
       </list>
     </option>
   </component>
@@ -481,7 +501,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1486336268000" expanded="true" signature="207:219" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -497,7 +519,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
-          <folding />
+          <folding>
+            <marker date="1486336268000" expanded="true" signature="207:219" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -513,7 +537,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1486336268000" expanded="true" signature="207:219" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -624,30 +650,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Parent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#195#196#0" expanded="true" />
-            <element signature="e#226#227#0" expanded="true" />
-            <element signature="e#267#268#0" expanded="true" />
-            <element signature="e#302#303#0" expanded="true" />
-            <element signature="e#345#346#0" expanded="true" />
-            <element signature="e#376#377#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="2" lean-forward="false" selection-start-line="8" selection-start-column="2" selection-end-line="8" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Makefile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -679,22 +681,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/TokenManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="12" column="23" lean-forward="false" selection-start-line="12" selection-start-column="23" selection-end-line="12" selection-end-column="23" />
+        <state relative-caret-position="120">
+          <caret line="10" column="57" lean-forward="false" selection-start-line="10" selection-start-column="57" selection-end-line="10" selection-end-column="57" />
           <folding>
-            <element signature="e#257#258#0" expanded="true" />
-            <element signature="e#288#289#0" expanded="true" />
+            <element signature="e#290#291#0" expanded="true" />
+            <element signature="e#321#322#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/Parent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="18" column="33" lean-forward="false" selection-start-line="18" selection-start-column="33" selection-end-line="18" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#267#268#0" expanded="true" />
+            <element signature="e#323#324#0" expanded="true" />
+            <element signature="e#368#369#0" expanded="true" />
+            <element signature="e#430#431#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="45" column="46" lean-forward="false" selection-start-line="45" selection-start-column="46" selection-end-line="45" selection-end-column="46" />
+        <state relative-caret-position="225">
+          <caret line="59" column="55" lean-forward="false" selection-start-line="59" selection-start-column="55" selection-end-line="59" selection-end-column="55" />
           <folding>
-            <element signature="e#2882#2883#0" expanded="true" />
-            <element signature="e#2949#2950#0" expanded="true" />
+            <element signature="e#2884#2885#0" expanded="true" />
+            <element signature="e#2951#2952#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="5" lean-forward="false" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+          <folding>
+            <marker date="1486336268000" expanded="true" signature="207:219" ph="..." />
           </folding>
         </state>
       </provider>
