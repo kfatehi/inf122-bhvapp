@@ -6,15 +6,18 @@ import java.util.ArrayList;
  * Created by keyvan on 2/3/17.
  */
 public class Child extends User {
-    private ChildData data = new ChildData();
+    private String username;
+    private ArrayList<Mode> modes = new ArrayList<>();
+    private ArrayList<Token> tokens = new ArrayList<>();
 
     public Child(String childName, ArrayList<String> modeStrings) {
         super(childName);
+        setUsername(childName);
         modeStrings.forEach((name)->{
             if (name.equals("positive"))
-                data.addMode(new Positive());
+                addMode(new Positive());
             if (name.equals("negative"))
-                data.addMode(new Negative());
+                addMode(new Negative());
         });
     }
 
@@ -22,11 +25,16 @@ public class Child extends User {
         super(childName);
     }
 
-    public ChildData getData() {
-        return data;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    // XXX added this to be able to add a mode
+    public void addMode(Mode mode) {
+        modes.add(mode);
     }
 
     public ArrayList<Token> getTokens() {
-        return data.getTokens();
+        return tokens;
     }
 }

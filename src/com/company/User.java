@@ -6,8 +6,8 @@ package com.company;
 public class User {
     private final String username;
 
-    public User(String username) {
-        this.username = username;
+    public User(String _username) {
+        username = _username;
     }
 
     public String getUsername() {
