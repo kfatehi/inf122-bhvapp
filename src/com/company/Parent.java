@@ -15,7 +15,7 @@ public class Parent extends TokenManager {
         children.put(child.getUsername(), child);
     }
 
-    public ArrayList<Child> getChildren() {
-        return new ArrayList<Child>(children.values());
+    public void setMode(String childName, String modeName) {
+        children.get(childName).setMode(modeName);
     }
 }

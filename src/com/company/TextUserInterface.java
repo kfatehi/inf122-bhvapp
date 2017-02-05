@@ -63,6 +63,8 @@ public class TextUserInterface implements UserInterface {
                             parentAddChild();
                         } else if (cmd.equals("status")) {
                             parentGetStatus();
+                        } else if (cmd.equals("set-mode")) {
+                            parentSetMode();
                         } else {
                             unrecognizedCommand(cmd);
                         }
@@ -83,6 +85,51 @@ public class TextUserInterface implements UserInterface {
             } catch (java.util.NoSuchElementException e) {
                 System.exit(0);
             }
+        }
+    }
+
+    private void parentAddChild() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child's name: ");
+        String newChildsName = getToken();
+        parent.addChild(new Child(newChildsName));
+        Main.saveState();
+        System.out.println("Added child " + newChildsName);
+    }
+
+    // view the status of all children (number of tokens and info about each token)");
+    private void parentGetStatus() {
+        Parent parent = (Parent) Main.currentUser;
+        parent.getChildren().forEach((childName, child)->{
+            System.out.println(childName);
+            int count = child.getTokens().size();
+            System.out.println("  number of tokens: "+Integer.toString(count));
+            child.getTokens().forEach(token->{
+                System.out.println("  token, note: "+token.viewNote());
+            });
+        });
+    }
+
+    private void parentSetMode() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child name: ");
+        String childsName = getToken();
+        System.out.print("Enter mode: ");
+        String modeName = getToken();
+        parent.setMode(childsName, modeName);
+        Main.saveState();
+        System.out.println(String.format("Set %s to %s mode", childsName, modeName));
+    }
+
+    private void childViewTokens() {
+        Child child = (Child) Main.currentUser;
+        ArrayList<Token> tokens = child.getTokens();
+        if (tokens.size() == 0) {
+            System.out.println("you have no tokens");
+        } else {
+            tokens.forEach((token) -> {
+                System.out.println("token, note: " + token.viewNote());
+            });
         }
     }
 
@@ -130,40 +177,6 @@ public class TextUserInterface implements UserInterface {
         if (! Main.login(username)) {
             printlnRed("user not found");
         }
-    }
-
-    private void childViewTokens() {
-        Child child = (Child) Main.currentUser;
-        ArrayList<Token> tokens = child.getTokens();
-        if (tokens.size() == 0) {
-            System.out.println("you have no tokens");
-        } else {
-            tokens.forEach((token) -> {
-                System.out.println("token, note: " + token.viewNote());
-            });
-        }
-    }
-
-    private void parentAddChild() {
-        System.out.print("Enter child's name: ");
-        String newChildsName = getToken();
-        Parent parent = (Parent) Main.currentUser;
-        parent.addChild(new Child(newChildsName));
-        Main.saveState();
-        System.out.println("Added child " + newChildsName);
-    }
-
-    // view the status of all children (number of tokens and info about each token)");
-    private void parentGetStatus() {
-        Parent parent = (Parent) Main.currentUser;
-        parent.getChildren().forEach(child->{
-            System.out.println(child.getUsername());
-            int count = child.getTokens().size();
-            System.out.println("  number of tokens: "+Integer.toString(count));
-            child.getTokens().forEach(token->{
-                System.out.println("  "+token.viewNote());
-            });
-        });
     }
 
     private String getUserType() {

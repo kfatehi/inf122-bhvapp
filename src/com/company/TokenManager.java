@@ -13,4 +13,8 @@ public class TokenManager extends User {
     public TokenManager(String username) {
         super(username);
     }
+
+    public HashMap<String,Child> getChildren() {
+        return children;
+    }
 }

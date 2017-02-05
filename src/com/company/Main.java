@@ -5,10 +5,8 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Properties;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -37,13 +35,18 @@ public class Main {
             String userType = currentUser.getClass().getSimpleName();
             if (userType.equals("Parent")) {
                 Parent parent = (Parent) currentUser;
-                ArrayList<Child> children = parent.getChildren();
-                children.forEach(child -> {
-                    String childName = child.getUsername();
-                    props.setProperty("users." + childName + ".type", "Child");
+
+                HashMap<String,Child> children = parent.getChildren();
+                children.forEach((name, child) -> {
+                    props.setProperty("users." + name + ".type", "Child");
+
+                    String modeNames = join(child.getModes().keySet().stream());
+                    props.setProperty("child."+name+".modes", modeNames);
                 });
-                String childNames = String.join(",", children.stream().map(User::getUsername).toArray(String[]::new));
+
+                String childNames = join(children.keySet().stream());
                 props.setProperty("users."+parent.getUsername()+".children", childNames);
+
             } else if (userType.equals("Child")) {
 
             }
@@ -51,6 +54,10 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String join(Stream<String> iter) {
+        return String.join(",", iter.toArray(String[]::new));
     }
 
     private static void loadProps() throws IOException {
