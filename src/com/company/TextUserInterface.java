@@ -1,9 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by keyvan on 2/3/17.
@@ -75,6 +72,8 @@ public class TextUserInterface implements UserInterface {
                     } else if (getUserType().equals("Child")) {
                         if (cmd.equals("tokens")) {
                             childViewTokens();
+                        } else if (cmd.equals("redeem")) {
+                            childRedeem();
                         } else {
                             unrecognizedCommand(cmd);
                         }
@@ -148,13 +147,22 @@ public class TextUserInterface implements UserInterface {
 
     private void childViewTokens() {
         Child child = (Child) Main.currentUser;
-        HashMap<Date, Token> tokens = child.getTokens();
+        HashMap<UUID, Token> tokens = child.getTokens();
         if (tokens.size() == 0) {
             System.out.println("you have no tokens");
         } else {
             tokens.forEach((date, token) -> {
                 System.out.println(String.format("%s %s", token.viewTimestamp(), token.viewNote()));
             });
+        }
+    }
+
+    private void childRedeem() {
+        Child child = (Child) Main.currentUser;
+        if (child.redeemTokens()) {
+            System.out.println("you have redeemed "+child.getRedemptionAmount()+" tokens!");
+        } else {
+            System.out.println("you do not have enough tokens to redeem!");
         }
     }
 

@@ -1,15 +1,15 @@
 package com.company;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
+
+import static java.util.Comparator.comparing;
 
 /**
  * Created by keyvan on 2/3/17.
  */
 public class Child extends User {
     private HashMap<String,Mode> modes = new HashMap<>();
-    private HashMap<Date,Token> tokens = new HashMap<>();
+    private HashMap<UUID,Token> tokens = new HashMap<>();
     private Integer redemptionAmount;
 
     public Child(String childName) {
@@ -29,7 +29,7 @@ public class Child extends User {
         modes.put(modeName, mode);
     }
 
-    public HashMap<Date, Token> getTokens() {
+    public HashMap<UUID, Token> getTokens() {
         return tokens;
     }
 
@@ -57,12 +57,30 @@ public class Child extends User {
         addToken(new Date(), note);
     }
 
-    public void addToken(Date date, String note) {
-        Token token = new Token(note);
-        token.setTimeStamp(date);
-        tokens.put(date, token);
+    public void addToken(Date date,  String note) {
+        addToken(UUID.randomUUID(), date, note);
     }
 
-    public void addToken(String timeStamp, String note) {
+    public void addToken(UUID uuid, Date date, String note) {
+        Token token = new Token(uuid, note);
+        token.setTimeStamp(date);
+        tokens.put(uuid, token);
+    }
+
+    public boolean redeemTokens() {
+        if (tokens.size() >= redemptionAmount) {
+            for (int i = 0; i < redemptionAmount; i++) removeOldestToken();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void removeOldestToken() {
+        tokens.remove(
+                tokens.values().stream().sorted(
+                        comparing((Token t)->t.getDate().getTime()).reversed()
+                ).findFirst().get().getUUID()
+        );
     }
 }

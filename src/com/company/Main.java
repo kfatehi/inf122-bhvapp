@@ -95,10 +95,11 @@ public class Main {
         getListFromProps("child."+name+".modes").forEach(child::setMode);
         child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
 
-        getListFromProps("tokens."+name).forEach(tokenEpoch->{
+        getListFromProps("tokens."+name).forEach(id->{
+            String note = props.getProperty("token."+name+"."+id+".note");
+            String time = props.getProperty("token."+name+"."+id+".time");
             Date date = new Date();
-            date.setTime(Long.parseLong(tokenEpoch));
-            String note = props.getProperty("token."+name+"."+tokenEpoch+".note", "<none>");
+            date.setTime(Long.parseLong(time));
             child.addToken(date, note);
         });
         return child;
@@ -122,12 +123,14 @@ public class Main {
                     props.setProperty("child."+name+".modes", modeNames);
                     props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
 
-                    HashMap<Date,Token> tokens = child.getTokens();
-                    String tokenIds = join(tokens.keySet().stream().map(date-> String.valueOf(date.getTime())));
+                    HashMap<UUID,Token> tokens = child.getTokens();
+                    String tokenIds = join(tokens.keySet().stream().map(id-> id.toString()));
                     props.setProperty("tokens."+name, tokenIds);
 
-                    tokens.forEach((date, token) -> {
-                        props.setProperty("token."+name+"."+date.getTime()+".note", token.viewNote());
+                    tokens.forEach((id, token) -> {
+                        String time = String.valueOf(token.getDate().getTime());
+                        props.setProperty("token."+name+"."+id+".note", token.viewNote());
+                        props.setProperty("token."+name+"."+id+".time", time);
                     });
                 });
 

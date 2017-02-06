@@ -18,6 +18,8 @@ set-mode alice positive
 set-redemption alice 3
 add-token alice cleaned room
 add-token alice did homework
+add-token alice baked cookies
+add-token alice made bed
 EOF
 
 cat <<EOF | behave
@@ -25,5 +27,7 @@ login admin
 status
 logout
 login alice
+tokens
+redeem
 tokens
 EOF
