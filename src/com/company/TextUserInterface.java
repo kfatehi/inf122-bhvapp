@@ -1,8 +1,8 @@
 package com.company;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 /**
@@ -50,7 +50,7 @@ public class TextUserInterface implements UserInterface {
         while (true) {
             prompt();
             try {
-                String cmd = getToken();
+                String cmd = getWord();
                 if (cmd.equals("?")) {
                     showHelp();
                 } else if (cmd.equals("quit")) {
@@ -94,9 +94,10 @@ public class TextUserInterface implements UserInterface {
 
     private void parentAddToken() {
         Parent parent = (Parent) Main.currentUser;
-        System.out.print("Enter child name: ");
-        String childName = getToken();
-        parent.addToken(childName);
+        System.out.print("Enter child name and note (e.g. alice cleaned room): ");
+        String childName = getWord();
+        String note = getLine();
+        parent.addToken(childName, note);
         Main.saveState();
         System.out.println(String.format("Added token to %s", childName));
     }
@@ -104,9 +105,9 @@ public class TextUserInterface implements UserInterface {
     private void parentSetRedemption() {
         Parent parent = (Parent) Main.currentUser;
         System.out.print("Enter child name: ");
-        String childsName = getToken();
+        String childsName = getWord();
         System.out.print("Enter redemption count: ");
-        Integer num = Integer.parseInt(getToken());
+        Integer num = Integer.parseInt(getWord());
         parent.setRedemption(childsName, num);
         Main.saveState();
         System.out.println(String.format("Set %s redemption to %d", childsName, num));
@@ -115,7 +116,7 @@ public class TextUserInterface implements UserInterface {
     private void parentAddChild() {
         Parent parent = (Parent) Main.currentUser;
         System.out.print("Enter child's name: ");
-        String newChildsName = getToken();
+        String newChildsName = getWord();
         parent.addChild(new Child(newChildsName));
         Main.saveState();
         System.out.println("Added child " + newChildsName);
@@ -128,8 +129,8 @@ public class TextUserInterface implements UserInterface {
             System.out.println(childName);
             int count = child.getTokens().size();
             System.out.println("  number of tokens: "+Integer.toString(count));
-            child.getTokens().forEach(token->{
-                System.out.println("  token, note: "+token.viewNote());
+            child.getTokens().forEach((date, token)->{
+                System.out.println("  "+String.format("%s %s", token.viewTimestamp(), token.viewNote()));
             });
         });
     }
@@ -137,9 +138,9 @@ public class TextUserInterface implements UserInterface {
     private void parentSetMode() {
         Parent parent = (Parent) Main.currentUser;
         System.out.print("Enter child name: ");
-        String childsName = getToken();
+        String childsName = getWord();
         System.out.print("Enter mode: ");
-        String modeName = getToken();
+        String modeName = getWord();
         parent.setMode(childsName, modeName);
         Main.saveState();
         System.out.println(String.format("Set %s to %s mode", childsName, modeName));
@@ -147,12 +148,12 @@ public class TextUserInterface implements UserInterface {
 
     private void childViewTokens() {
         Child child = (Child) Main.currentUser;
-        ArrayList<Token> tokens = child.getTokens();
+        HashMap<Date, Token> tokens = child.getTokens();
         if (tokens.size() == 0) {
             System.out.println("you have no tokens");
         } else {
-            tokens.forEach((token) -> {
-                System.out.println("token, note: " + token.viewNote());
+            tokens.forEach((date, token) -> {
+                System.out.println(String.format("%s %s", token.viewTimestamp(), token.viewNote()));
             });
         }
     }
@@ -169,12 +170,20 @@ public class TextUserInterface implements UserInterface {
         return (char)27 + "[31m"+str + (char)27 + "[0m";
     }
 
-    private String getToken() {
+    private String getWord() {
         String cmd = scanner.next();
         if (!interactive) {
             System.out.println(cmd);
         }
         return cmd;
+    }
+
+    private String getLine() {
+        String line = scanner.nextLine().trim();
+        if (!interactive) {
+            System.out.println(line);
+        }
+        return line;
     }
 
     private void logout() {
@@ -196,7 +205,7 @@ public class TextUserInterface implements UserInterface {
 
     private void login() {
         System.out.print("Enter your username: ");
-        String username = getToken();
+        String username = getWord();
 
         if (! Main.login(username)) {
             printlnRed("user not found");

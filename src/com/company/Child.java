@@ -1,15 +1,15 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
  * Created by keyvan on 2/3/17.
  */
 public class Child extends User {
-    private String username;
     private HashMap<String,Mode> modes = new HashMap<>();
-    private ArrayList<Token> tokens = new ArrayList<>();
+    private HashMap<Date,Token> tokens = new HashMap<>();
     private Integer redemptionAmount;
 
     public Child(String childName) {
@@ -29,7 +29,7 @@ public class Child extends User {
         modes.put(modeName, mode);
     }
 
-    public ArrayList<Token> getTokens() {
+    public HashMap<Date, Token> getTokens() {
         return tokens;
     }
 
@@ -50,6 +50,19 @@ public class Child extends User {
     }
 
     public void addToken() {
-        tokens.add(new Token());
+        addToken(new Date(), "<none>");
+    }
+
+    public void addToken(String note) {
+        addToken(new Date(), note);
+    }
+
+    public void addToken(Date date, String note) {
+        Token token = new Token(note);
+        token.setTimeStamp(date);
+        tokens.put(date, token);
+    }
+
+    public void addToken(String timeStamp, String note) {
     }
 }

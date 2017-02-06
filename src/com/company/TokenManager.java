@@ -21,4 +21,8 @@ public class TokenManager extends User {
     public void addToken(String childName) {
         children.get(childName).addToken();
     }
+
+    public void addToken(String childName, String note) {
+        children.get(childName).addToken(note);
+    }
 }

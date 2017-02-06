@@ -84,8 +84,12 @@ public class Main {
                 getListFromProps("child."+name+".modes").forEach(child::setMode);
                 child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
 
-                String tokAmount = props.getProperty("child."+name+".tokenCount", "0");
-                for (int i = 0; i < Integer.parseInt(tokAmount); i++) child.addToken();
+                getListFromProps("tokens."+name).forEach(tokenEpoch->{
+                    Date date = new Date();
+                    date.setTime(Long.parseLong(tokenEpoch));
+                    String note = props.getProperty("token."+name+"."+tokenEpoch+".note", "<none>");
+                    child.addToken(date, note);
+                });
 
                 parent.addChild(child);
             }
@@ -99,17 +103,25 @@ public class Main {
                 Parent parent = (Parent) currentUser;
 
                 HashMap<String,Child> children = parent.getChildren();
+
+                String childNames = join(children.keySet().stream());
+                props.setProperty("users."+parent.getUsername()+".children", childNames);
+
                 children.forEach((name, child) -> {
                     props.setProperty("users." + name + ".type", "Child");
 
                     String modeNames = join(child.getModes().keySet().stream());
                     props.setProperty("child."+name+".modes", modeNames);
                     props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
-                    props.setProperty("child."+name+".tokenCount", String.valueOf(child.getTokens().size()));
-                });
 
-                String childNames = join(children.keySet().stream());
-                props.setProperty("users."+parent.getUsername()+".children", childNames);
+                    HashMap<Date,Token> tokens = child.getTokens();
+                    String tokenIds = join(tokens.keySet().stream().map(date-> String.valueOf(date.getTime())));
+                    props.setProperty("tokens."+name, tokenIds);
+
+                    tokens.forEach((date, token) -> {
+                        props.setProperty("token."+name+"."+date.getTime()+".note", token.viewNote());
+                    });
+                });
 
             } else if (userType.equals("Child")) {
 
