@@ -187,7 +187,7 @@ public class TextUserInterface implements UserInterface {
     }
 
     private void logout() {
-        Main.currentUser = null;
+        Main.logout();
         System.out.println("you have been logged out");
     }
 

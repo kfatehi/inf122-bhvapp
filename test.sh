@@ -23,4 +23,7 @@ EOF
 cat <<EOF | behave
 login admin
 status
+logout
+login alice
+tokens
 EOF

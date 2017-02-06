@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e46c7cdf-76f2-44d8-88c8-882780cb5214" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config.properties" afterPath="$PROJECT_DIR$/config.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Child.java" afterPath="$PROJECT_DIR$/src/com/company/Child.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/TextUserInterface.java" afterPath="$PROJECT_DIR$/src/com/company/TextUserInterface.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/Token.java" afterPath="$PROJECT_DIR$/src/com/company/Token.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/company/TokenManager.java" afterPath="$PROJECT_DIR$/src/com/company/TokenManager.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test.sh" afterPath="$PROJECT_DIR$/test.sh" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -31,8 +27,8 @@
       <file leaf-file-name="TextUserInterface.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/TextUserInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="154" column="33" lean-forward="false" selection-start-line="154" selection-start-column="33" selection-end-line="154" selection-end-column="33" />
+            <state relative-caret-position="297">
+              <caret line="150" column="23" lean-forward="false" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -70,9 +66,12 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="89" column="45" lean-forward="false" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
-              <folding />
+            <state relative-caret-position="240">
+              <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
+              <folding>
+                <element signature="e#4652#4653#0" expanded="true" />
+                <element signature="e#4686#4687#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -130,8 +129,8 @@
         <option value="$PROJECT_DIR$/test.sh" />
         <option value="$PROJECT_DIR$/src/com/company/TokenManager.java" />
         <option value="$PROJECT_DIR$/src/com/company/Token.java" />
-        <option value="$PROJECT_DIR$/src/com/company/TextUserInterface.java" />
         <option value="$PROJECT_DIR$/src/com/company/Child.java" />
+        <option value="$PROJECT_DIR$/src/com/company/TextUserInterface.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
       </list>
     </option>
@@ -550,7 +549,7 @@
         <state relative-caret-position="90">
           <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding>
-            <marker date="1486352259000" expanded="true" signature="214:226" ph="..." />
+            <marker date="1486354340000" expanded="true" signature="214:226" ph="..." />
           </folding>
         </state>
       </provider>
@@ -568,7 +567,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="6" lean-forward="false" selection-start-line="0" selection-start-column="6" selection-end-line="0" selection-end-column="6" />
           <folding>
-            <marker date="1486352259000" expanded="true" signature="214:226" ph="..." />
+            <marker date="1486354340000" expanded="true" signature="214:226" ph="..." />
           </folding>
         </state>
       </provider>
@@ -586,7 +585,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <marker date="1486352259000" expanded="true" signature="214:226" ph="..." />
+            <marker date="1486354340000" expanded="true" signature="214:226" ph="..." />
           </folding>
         </state>
       </provider>
@@ -713,8 +712,16 @@
         <state relative-caret-position="60">
           <caret line="4" column="22" lean-forward="false" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
           <folding>
-            <marker date="1486352259000" expanded="true" signature="214:226" ph="..." />
+            <marker date="1486354340000" expanded="true" signature="214:226" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/function/Function.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="48" column="6" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -745,16 +752,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/TextUserInterface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="154" column="33" lean-forward="false" selection-start-line="154" selection-start-column="33" selection-end-line="154" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_121.jdk/Contents/Home/src.zip!/java/util/function/Function.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="48" column="6" lean-forward="false" selection-start-line="48" selection-start-column="6" selection-end-line="48" selection-end-column="6" />
+        <state relative-caret-position="297">
+          <caret line="150" column="23" lean-forward="false" selection-start-line="150" selection-start-column="23" selection-end-line="150" selection-end-column="23" />
           <folding />
         </state>
       </provider>
@@ -775,9 +774,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="89" column="45" lean-forward="false" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
-          <folding />
+        <state relative-caret-position="240">
+          <caret line="109" column="4" lean-forward="false" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
+          <folding>
+            <element signature="e#4652#4653#0" expanded="true" />
+            <element signature="e#4686#4687#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

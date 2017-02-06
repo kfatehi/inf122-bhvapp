@@ -1,10 +1,8 @@
 package com.company;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -63,10 +61,9 @@ public class Main {
         String userType = getUserType(username);
         if (userType != null) {
             if (userType.equals("Parent")) {
-                currentUser = new Parent(username);
-                loadChildren((Parent) currentUser);
+                currentUser = loadParent(username);
             } else if (userType.equals("Child")) {
-                currentUser = new Child(username);
+                currentUser = loadChild(username);
             } else {
                 return false;
             }
@@ -76,24 +73,35 @@ public class Main {
         return true;
     }
 
+    private static Parent loadParent(String name) {
+        Parent parent = new Parent(name);
+        loadChildren(parent);
+        return parent;
+    }
+
     private static void loadChildren(Parent parent) {
-        getListFromProps("users."+currentUser.getUsername()+".children").forEach((name)->{
+        getListFromProps("users."+parent.getUsername()+".children").forEach((name)->{
             if (name.length() > 0) {
-                Child child = new Child(name);
-
-                getListFromProps("child."+name+".modes").forEach(child::setMode);
-                child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
-
-                getListFromProps("tokens."+name).forEach(tokenEpoch->{
-                    Date date = new Date();
-                    date.setTime(Long.parseLong(tokenEpoch));
-                    String note = props.getProperty("token."+name+"."+tokenEpoch+".note", "<none>");
-                    child.addToken(date, note);
-                });
+                Child child = loadChild(name);
 
                 parent.addChild(child);
             }
         });
+    }
+
+    private static Child loadChild(String name) {
+        Child child = new Child(name);
+
+        getListFromProps("child."+name+".modes").forEach(child::setMode);
+        child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
+
+        getListFromProps("tokens."+name).forEach(tokenEpoch->{
+            Date date = new Date();
+            date.setTime(Long.parseLong(tokenEpoch));
+            String note = props.getProperty("token."+name+"."+tokenEpoch+".note", "<none>");
+            child.addToken(date, note);
+        });
+        return child;
     }
 
     public static void saveState() {
@@ -130,5 +138,9 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void logout() {
+        currentUser = null;
     }
 }
