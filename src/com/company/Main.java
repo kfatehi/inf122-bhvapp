@@ -80,9 +80,12 @@ public class Main {
         getListFromProps("users."+currentUser.getUsername()+".children").forEach((name)->{
             if (name.length() > 0) {
                 Child child = new Child(name);
+
                 getListFromProps("child."+name+".modes").forEach(child::setMode);
                 child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
-                child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
+
+                String tokAmount = props.getProperty("child."+name+".tokenCount", "0");
+                for (int i = 0; i < Integer.parseInt(tokAmount); i++) child.addToken();
 
                 parent.addChild(child);
             }
