@@ -10,14 +10,10 @@ public class Child extends User {
     private String username;
     private HashMap<String,Mode> modes = new HashMap<>();
     private ArrayList<Token> tokens = new ArrayList<>();
+    private Integer redemptionAmount;
 
     public Child(String childName) {
         super(childName);
-    }
-
-    public Child(String childName, ArrayList<String> modeNames) {
-        super(childName);
-        modeNames.forEach(this::setMode);
     }
 
     public void setMode(String name) {
@@ -39,5 +35,17 @@ public class Child extends User {
 
     public HashMap<String, Mode> getModes() {
         return modes;
+    }
+
+    public void setRedemption(Integer redemption) {
+        redemptionAmount = redemption;
+    }
+
+    public Integer getRedemptionAmount() {
+        return redemptionAmount;
+    }
+
+    public void setRedemption(String redemption) {
+        redemptionAmount = Integer.parseInt(redemption);
     }
 }

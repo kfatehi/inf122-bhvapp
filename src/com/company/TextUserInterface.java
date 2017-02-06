@@ -65,6 +65,8 @@ public class TextUserInterface implements UserInterface {
                             parentGetStatus();
                         } else if (cmd.equals("set-mode")) {
                             parentSetMode();
+                        } else if (cmd.equals("set-redemption")) {
+                            parentSetRedemption();
                         } else {
                             unrecognizedCommand(cmd);
                         }
@@ -86,6 +88,17 @@ public class TextUserInterface implements UserInterface {
                 System.exit(0);
             }
         }
+    }
+
+    private void parentSetRedemption() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child name: ");
+        String childsName = getToken();
+        System.out.print("Enter redemption count: ");
+        Integer num = Integer.parseInt(getToken());
+        parent.setRedemption(childsName, num);
+        Main.saveState();
+        System.out.println(String.format("Set %s redemption to %d", childsName, num));
     }
 
     private void parentAddChild() {

@@ -30,32 +30,6 @@ public class Main {
         }
     }
 
-    public static void saveState() {
-        try {
-            String userType = currentUser.getClass().getSimpleName();
-            if (userType.equals("Parent")) {
-                Parent parent = (Parent) currentUser;
-
-                HashMap<String,Child> children = parent.getChildren();
-                children.forEach((name, child) -> {
-                    props.setProperty("users." + name + ".type", "Child");
-
-                    String modeNames = join(child.getModes().keySet().stream());
-                    props.setProperty("child."+name+".modes", modeNames);
-                });
-
-                String childNames = join(children.keySet().stream());
-                props.setProperty("users."+parent.getUsername()+".children", childNames);
-
-            } else if (userType.equals("Child")) {
-
-            }
-            saveProps();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static String join(Stream<String> iter) {
         return String.join(",", iter.toArray(String[]::new));
     }
@@ -66,16 +40,6 @@ public class Main {
 
     private static void saveProps() throws IOException {
         props.store(new FileOutputStream(propsFile), null);
-    }
-
-    private static void loadChildren(Parent parent) {
-        getListFromProps("users."+currentUser.getUsername()+".children").forEach((childName)->{
-            if (childName.length() > 0) {
-                ArrayList<String> modes = getListFromProps("child." + childName + ".modes");
-                System.out.println("loading child: " + childName);
-                parent.addChild(new Child(childName, modes));
-            }
-        });
     }
 
     private static ArrayList<String> getListFromProps(String key) {
@@ -110,5 +74,44 @@ public class Main {
             return false;
         }
         return true;
+    }
+
+    private static void loadChildren(Parent parent) {
+        getListFromProps("users."+currentUser.getUsername()+".children").forEach((name)->{
+            if (name.length() > 0) {
+                Child child = new Child(name);
+                getListFromProps("child."+name+".modes").forEach(child::setMode);
+                child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
+
+                parent.addChild(child);
+            }
+        });
+    }
+
+    public static void saveState() {
+        try {
+            String userType = currentUser.getClass().getSimpleName();
+            if (userType.equals("Parent")) {
+                Parent parent = (Parent) currentUser;
+
+                HashMap<String,Child> children = parent.getChildren();
+                children.forEach((name, child) -> {
+                    props.setProperty("users." + name + ".type", "Child");
+
+                    String modeNames = join(child.getModes().keySet().stream());
+                    props.setProperty("child."+name+".modes", modeNames);
+                    props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
+                });
+
+                String childNames = join(children.keySet().stream());
+                props.setProperty("users."+parent.getUsername()+".children", childNames);
+
+            } else if (userType.equals("Child")) {
+
+            }
+            saveProps();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

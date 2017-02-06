@@ -18,4 +18,8 @@ public class Parent extends TokenManager {
     public void setMode(String childName, String modeName) {
         children.get(childName).setMode(modeName);
     }
+
+    public void setRedemption(String childName, Integer num) {
+        children.get(childName).setRedemption(num);
+    }
 }

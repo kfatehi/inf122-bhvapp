@@ -9,7 +9,7 @@ cat <<EOF | java -classpath out/production/behave-app com.company.Main config.pr
 login admin
 add-child alice
 set-mode alice positive
-set-redemption 3
+set-redemption alice 3
 add-token alice
 EOF
 
