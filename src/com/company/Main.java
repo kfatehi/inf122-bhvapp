@@ -105,6 +105,25 @@ public class Main {
         return child;
     }
 
+    private static void saveChild(Child child) {
+        String name = child.getUsername();
+        props.setProperty("users." + name + ".type", "Child");
+
+        String modeNames = join(child.getModes().keySet().stream());
+        props.setProperty("child."+name+".modes", modeNames);
+        props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
+
+        HashMap<UUID,Token> tokens = child.getTokens();
+        String tokenIds = join(tokens.keySet().stream().map(UUID::toString));
+        props.setProperty("tokens."+name, tokenIds);
+
+        tokens.forEach((id, token) -> {
+            String time = String.valueOf(token.getDate().getTime());
+            props.setProperty("token."+name+"."+id+".note", token.viewNote());
+            props.setProperty("token."+name+"."+id+".time", time);
+        });
+    }
+
     public static void saveState() {
         try {
             String userType = currentUser.getClass().getSimpleName();
@@ -116,26 +135,10 @@ public class Main {
                 String childNames = join(children.keySet().stream());
                 props.setProperty("users."+parent.getUsername()+".children", childNames);
 
-                children.forEach((name, child) -> {
-                    props.setProperty("users." + name + ".type", "Child");
-
-                    String modeNames = join(child.getModes().keySet().stream());
-                    props.setProperty("child."+name+".modes", modeNames);
-                    props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
-
-                    HashMap<UUID,Token> tokens = child.getTokens();
-                    String tokenIds = join(tokens.keySet().stream().map(id-> id.toString()));
-                    props.setProperty("tokens."+name, tokenIds);
-
-                    tokens.forEach((id, token) -> {
-                        String time = String.valueOf(token.getDate().getTime());
-                        props.setProperty("token."+name+"."+id+".note", token.viewNote());
-                        props.setProperty("token."+name+"."+id+".time", time);
-                    });
-                });
+                children.values().forEach(Main::saveChild);
 
             } else if (userType.equals("Child")) {
-
+                saveChild((Child) currentUser);
             }
             saveProps();
         } catch (IOException e) {

@@ -160,6 +160,7 @@ public class TextUserInterface implements UserInterface {
     private void childRedeem() {
         Child child = (Child) Main.currentUser;
         if (child.redeemTokens()) {
+            Main.saveState();
             System.out.println("you have redeemed "+child.getRedemptionAmount()+" tokens!");
         } else {
             System.out.println("you do not have enough tokens to redeem!");

@@ -29,5 +29,9 @@ logout
 login alice
 tokens
 redeem
+EOF
+
+cat <<EOF | behave
+login alice
 tokens
 EOF

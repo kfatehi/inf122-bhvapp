@@ -49,10 +49,6 @@ public class Child extends User {
         redemptionAmount = Integer.parseInt(redemption);
     }
 
-    public void addToken() {
-        addToken(new Date(), "<none>");
-    }
-
     public void addToken(String note) {
         addToken(new Date(), note);
     }
