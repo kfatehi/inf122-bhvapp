@@ -82,6 +82,7 @@ public class Main {
                 Child child = new Child(name);
                 getListFromProps("child."+name+".modes").forEach(child::setMode);
                 child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
+                child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
 
                 parent.addChild(child);
             }
@@ -101,6 +102,7 @@ public class Main {
                     String modeNames = join(child.getModes().keySet().stream());
                     props.setProperty("child."+name+".modes", modeNames);
                     props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
+                    props.setProperty("child."+name+".tokenCount", String.valueOf(child.getTokens().size()));
                 });
 
                 String childNames = join(children.keySet().stream());

@@ -67,6 +67,8 @@ public class TextUserInterface implements UserInterface {
                             parentSetMode();
                         } else if (cmd.equals("set-redemption")) {
                             parentSetRedemption();
+                        } else if (cmd.equals("add-token")) {
+                            parentAddToken();
                         } else {
                             unrecognizedCommand(cmd);
                         }
@@ -88,6 +90,15 @@ public class TextUserInterface implements UserInterface {
                 System.exit(0);
             }
         }
+    }
+
+    private void parentAddToken() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child name: ");
+        String childName = getToken();
+        parent.addToken(childName);
+        Main.saveState();
+        System.out.println(String.format("Added token to %s", childName));
     }
 
     private void parentSetRedemption() {

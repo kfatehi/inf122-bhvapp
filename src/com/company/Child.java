@@ -48,4 +48,8 @@ public class Child extends User {
     public void setRedemption(String redemption) {
         redemptionAmount = Integer.parseInt(redemption);
     }
+
+    public void addToken() {
+        tokens.add(new Token());
+    }
 }

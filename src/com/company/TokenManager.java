@@ -17,4 +17,8 @@ public class TokenManager extends User {
     public HashMap<String,Child> getChildren() {
         return children;
     }
+
+    public void addToken(String childName) {
+        children.get(childName).addToken();
+    }
 }
