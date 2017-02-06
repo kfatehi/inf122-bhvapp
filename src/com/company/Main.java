@@ -149,4 +149,12 @@ public class Main {
     public static void logout() {
         currentUser = null;
     }
+
+    public static void redeemChildTokens(Child child) {
+        String name = child.getUsername();
+        child.redeemTokens().stream().map(UUID::toString).forEach(id->{
+            props.remove("token."+name+"."+id+".time");
+            props.remove("token."+name+"."+id+".note");
+        });
+    }
 }

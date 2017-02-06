@@ -63,20 +63,26 @@ public class Child extends User {
         tokens.put(uuid, token);
     }
 
-    public boolean redeemTokens() {
-        if (tokens.size() >= redemptionAmount) {
-            for (int i = 0; i < redemptionAmount; i++) removeOldestToken();
-            return true;
-        } else {
-            return false;
-        }
+    public boolean canRedeem() {
+        return tokens.size() >= redemptionAmount;
     }
 
-    private void removeOldestToken() {
-        tokens.remove(
-                tokens.values().stream().sorted(
-                        comparing((Token t)->t.getDate().getTime()).reversed()
-                ).findFirst().get().getUUID()
-        );
+    public ArrayList<UUID> redeemTokens() {
+        ArrayList<UUID> uuids = new ArrayList<>();
+        if (canRedeem()) {
+            for (int i = 0; i < redemptionAmount; i++) {
+                Token token = getOldestToken();
+                UUID uuid = token.getUUID();
+                uuids.add(uuid);
+                tokens.remove(uuid);
+            }
+        }
+        return uuids;
+    }
+
+    private Token getOldestToken() {
+        return tokens.values().stream().sorted(
+                comparing((Token t)->t.getDate().getTime()).reversed()
+        ).findFirst().get();
     }
 }
