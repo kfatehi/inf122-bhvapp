@@ -36,4 +36,8 @@ public class Token {
     public UUID getUUID() {
         return uuid;
     }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 }

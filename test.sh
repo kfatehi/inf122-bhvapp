@@ -20,10 +20,15 @@ add-token alice cleaned room
 add-token alice did homework
 add-token alice baked cookies
 add-token alice made bed
+schedule-token alice daily
+redeem alice
 EOF
 
 cat <<EOF | behave
 login admin
+add-token alice did homework
+add-token alice baked cookies
+add-token alice made bed
 status
 logout
 login alice

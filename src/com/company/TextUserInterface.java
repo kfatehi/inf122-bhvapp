@@ -23,7 +23,7 @@ public class TextUserInterface implements UserInterface {
                 System.out.println("redeem                    redeem a child’s tokens for a reward (positive mode) or a consequence (negative mode)");
                 System.out.println("set-redemption            define, per child, the number of tokens required for redemption and (optionally) what the tokens will be redeemed for");
                 System.out.println("set-mode                  define one mode per child");
-                System.out.println("schedule                  schedule tokens to be automatically added periodically (e.g., one per day)");
+                System.out.println("schedule-token            schedule tokens to be automatically added periodically (e.g., one per day)");
             } else if (getUserType().equals("Child")) {
                 System.out.println("tokens                    view the status of your tokens (number of tokens and info about each token)");
                 System.out.println("redeem                    redeem your tokens for a reward (positive mode)");
@@ -58,6 +58,10 @@ public class TextUserInterface implements UserInterface {
                     } else if (getUserType().equals("Parent")) {
                         if (cmd.equals("add-child")) {
                             parentAddChild();
+                        } else if (cmd.equals("edit-child")) {
+                            parentEditChild();
+                        } else if (cmd.equals("delete-child")) {
+                            parentDeleteChild();
                         } else if (cmd.equals("status")) {
                             parentGetStatus();
                         } else if (cmd.equals("set-mode")) {
@@ -66,6 +70,14 @@ public class TextUserInterface implements UserInterface {
                             parentSetRedemption();
                         } else if (cmd.equals("add-token")) {
                             parentAddToken();
+                        } else if (cmd.equals("edit-child")) {
+                            parentEditToken();
+                        } else if (cmd.equals("delete-child")) {
+                            parentDeleteToken();
+                        } else if (cmd.equals("schedule-token")) {
+                            parentScheduleToken();
+                        } else if (cmd.equals("redeem")) {
+                            parentRedeem();
                         } else {
                             unrecognizedCommand(cmd);
                         }
@@ -89,6 +101,113 @@ public class TextUserInterface implements UserInterface {
                 System.exit(0);
             }
         }
+    }
+
+    private void parentDeleteToken() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child's name: ");
+        String childName = getWord();
+        Child child = parent.getChild(childName);
+        if (child != null) {
+            System.out.print("Enter token ID: ");
+            String tid = getWord();
+            child.getTokens().remove(tid);
+            Main.saveState();
+            System.out.println("Deleted token");
+        } else {
+            printlnRed("no child " + childName);
+        }
+    }
+
+    private void parentEditToken() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child's name: ");
+        String childName = getWord();
+        Child child = parent.getChild(childName);
+        if (child != null) {
+            System.out.print("Enter token ID: ");
+            String tid = getWord();
+            Token tok = child.getTokens().get(tid);
+            if (tok != null) {
+                System.out.print("Enter new token note: ");
+                String note = getLine();
+                tok.setNote(note);
+                Main.saveState();
+                System.out.println("Updated token");
+            } else {
+                printlnRed("no token " + tid);
+            }
+        } else {
+            printlnRed("no child " + childName);
+        }
+    }
+
+    private void parentDeleteChild() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child's name: ");
+        String childName = getWord();
+        parent.getChildren().remove(childName);
+        Main.saveState();
+        System.out.println("Deleted "+childName);
+    }
+
+    private void parentEditChild() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child's name: ");
+        String childName = getWord();
+        Child child = parent.getChild(childName);
+        if (child != null) {
+            System.out.print("Enter child's new name: ");
+            String childNewName = getWord();
+            child.setUsername(childNewName);
+            Main.saveState();
+            System.out.println("Edited child " + childName + " to " + childNewName);
+        } else {
+            printlnRed("no child " + childName);
+        }
+    }
+
+    private void parentRedeem() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child name: ");
+        String childName = getWord();
+        Child child = parent.getChild(childName);
+        if (child != null) {
+            if (child.canRedeem()) {
+                Main.redeemChildTokens(child);
+                Main.saveState();
+                System.out.println(childName+" has redeemed "+child.getRedemptionAmount()+" tokens!");
+            } else {
+                System.out.println(childName+" does not have enough tokens to redeem!");
+            }
+        } else {
+            printlnRed("no child "+childName);
+        }
+    }
+
+    private void parentScheduleToken() {
+        Parent parent = (Parent) Main.currentUser;
+        System.out.print("Enter child name: ");
+        String childName = getWord();
+        System.out.print("Enter frequency (daily, hourly): ");
+        String frequency = getWord();
+        int freqValue = 0;
+        if (frequency.equals("daily")) {
+            freqValue = 24*60*60*1000;
+        } else if (frequency.equals("hourly")) {
+            freqValue = 60*60*1000;
+        } else {
+            printlnRed("unimplemented frequency "+frequency);
+            return;
+        }
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                parent.addToken(childName, "automatic");
+            }
+        }, freqValue, freqValue);
+        System.out.println(String.format("Scheduled %s automatic token for %s", frequency, childName));
     }
 
     private void parentAddToken() {

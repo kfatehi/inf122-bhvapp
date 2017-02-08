@@ -1,8 +1,6 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
  * Created by keyvan on 2/4/17.
@@ -20,5 +18,9 @@ public class TokenManager extends User {
 
     public void addToken(String childName, String note) {
         children.get(childName).addToken(note);
+    }
+
+    public Child getChild(String childName) {
+        return getChildren().get(childName);
     }
 }
