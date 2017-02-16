@@ -1,7 +1,5 @@
 package com.company;
 
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
@@ -10,19 +8,18 @@ public class Main {
 
     static User currentUser;
     static UserInterface userInterface;
-    private static String propsFile;
-    private static Properties props = new Properties();
+    private static KeyValueStore db;
 
     public static void main(String[] args) {
-        propsFile = args[0];
+        db = new KeyValueStore(args[0]);
         loadState();
         userInterface.start();
     }
 
     private static void loadState() {
         try {
-            loadProps();
-            loadUserInterface(props);
+            db.load();
+            loadUserInterface();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,20 +29,12 @@ public class Main {
         return String.join(",", iter.toArray(String[]::new));
     }
 
-    private static void loadProps() throws IOException {
-        props.load(new FileReader(propsFile));
-    }
-
-    private static void saveProps() throws IOException {
-        props.store(new FileOutputStream(propsFile), null);
-    }
-
     private static ArrayList<String> getListFromProps(String key) {
-        return new ArrayList<>(Arrays.asList(props.getProperty(key, "").split(",")));
+        return new ArrayList<>(Arrays.asList(db.get(key, "").split(",")));
     }
 
-    private static void loadUserInterface(Properties props) {
-        String uiMode = props.getProperty("ui", "text");
+    private static void loadUserInterface() {
+        String uiMode = db.get("ui", "text");
         if (uiMode.equals("text")) {
             userInterface = new TextUserInterface();
         } else {
@@ -54,7 +43,7 @@ public class Main {
     }
 
     public static String getUserType(String username) {
-        return props.getProperty("users."+username+".type");
+        return db.get("users."+username+".type");
     }
 
     public static boolean login(String username) {
@@ -93,11 +82,11 @@ public class Main {
         Child child = new Child(name);
 
         getListFromProps("child."+name+".modes").forEach(child::setMode);
-        child.setRedemption(props.getProperty("child."+name+".redemptionAmount", "0"));
+        child.setRedemption(db.get("child."+name+".redemptionAmount", "0"));
 
         getListFromProps("tokens."+name).forEach(id->{
-            String note = props.getProperty("token."+name+"."+id+".note");
-            String time = props.getProperty("token."+name+"."+id+".time");
+            String note = db.get("token."+name+"."+id+".note");
+            String time = db.get("token."+name+"."+id+".time");
             Date date = new Date();
             date.setTime(Long.parseLong(time));
             child.addToken(date, note);
@@ -107,20 +96,20 @@ public class Main {
 
     private static void saveChild(Child child) {
         String name = child.getUsername();
-        props.setProperty("users." + name + ".type", "Child");
+        db.set("users." + name + ".type", "Child");
 
         String modeNames = join(child.getModes().keySet().stream());
-        props.setProperty("child."+name+".modes", modeNames);
-        props.setProperty("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
+        db.set("child."+name+".modes", modeNames);
+        db.set("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
 
         HashMap<UUID,Token> tokens = child.getTokens();
         String tokenIds = join(tokens.keySet().stream().map(UUID::toString));
-        props.setProperty("tokens."+name, tokenIds);
+        db.set("tokens."+name, tokenIds);
 
         tokens.forEach((id, token) -> {
             String time = String.valueOf(token.getDate().getTime());
-            props.setProperty("token."+name+"."+id+".note", token.viewNote());
-            props.setProperty("token."+name+"."+id+".time", time);
+            db.set("token."+name+"."+id+".note", token.viewNote());
+            db.set("token."+name+"."+id+".time", time);
         });
     }
 
@@ -133,14 +122,14 @@ public class Main {
                 HashMap<String,Child> children = parent.getChildren();
 
                 String childNames = join(children.keySet().stream());
-                props.setProperty("users."+parent.getUsername()+".children", childNames);
+                db.set("users."+parent.getUsername()+".children", childNames);
 
                 children.values().forEach(Main::saveChild);
 
             } else if (userType.equals("Child")) {
                 saveChild((Child) currentUser);
             }
-            saveProps();
+            db.save();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -153,8 +142,8 @@ public class Main {
     public static void redeemChildTokens(Child child) {
         String name = child.getUsername();
         child.redeemTokens().stream().map(UUID::toString).forEach(id->{
-            props.remove("token."+name+"."+id+".time");
-            props.remove("token."+name+"."+id+".note");
+            db.delete("token."+name+"."+id+".time");
+            db.delete("token."+name+"."+id+".note");
         });
     }
 }
