@@ -6,6 +6,8 @@ import java.util.*;
  * Created by keyvan on 2/3/17.
  */
 public class TextUserInterface implements UserInterface {
+    public static final int DAILY_MS = 24 * 60 * 60 * 1000;
+    public static final int HOURLY_MS = 60 * 60 * 1000;
     private Scanner scanner = new Scanner(System.in);
     private boolean interactive = true;
 
@@ -193,9 +195,9 @@ public class TextUserInterface implements UserInterface {
         String frequency = getWord();
         int freqValue = 0;
         if (frequency.equals("daily")) {
-            freqValue = 24*60*60*1000;
+            freqValue = DAILY_MS;
         } else if (frequency.equals("hourly")) {
-            freqValue = 60*60*1000;
+            freqValue = HOURLY_MS;
         } else {
             printlnRed("unimplemented frequency "+frequency);
             return;
