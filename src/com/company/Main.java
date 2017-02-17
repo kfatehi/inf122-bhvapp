@@ -24,10 +24,6 @@ public class Main {
         }
     }
 
-    private static ArrayList<String> getListFromProps(String key) {
-        return new ArrayList<>(Arrays.asList(db.get(key, "").split(",")));
-    }
-
     private static void loadUserInterface() {
         String uiMode = db.get("ui", "text");
         if (uiMode.equals("text")) {
@@ -64,7 +60,7 @@ public class Main {
     }
 
     private static void loadChildren(Parent parent) {
-        getListFromProps("users."+parent.getUsername()+".children").forEach((name)->{
+        db.getList("users."+parent.getUsername()+".children").forEach((name)->{
             if (name.length() > 0) {
                 Child child = loadChild(name);
 
@@ -76,10 +72,10 @@ public class Main {
     private static Child loadChild(String name) {
         Child child = new Child(name);
 
-        getListFromProps("child."+name+".modes").forEach(child::setMode);
+        db.getList("child."+name+".modes").forEach(child::setMode);
         child.setRedemption(db.get("child."+name+".redemptionAmount", "0"));
 
-        getListFromProps("tokens."+name).forEach(id->{
+        db.getList("tokens."+name).forEach(id->{
             String note = db.get("token."+name+"."+id+".note");
             String time = db.get("token."+name+"."+id+".time");
             Date date = new Date();

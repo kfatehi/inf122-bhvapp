@@ -3,6 +3,8 @@ package com.company;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.Stream;
 
@@ -43,5 +45,9 @@ public class KeyValueStore {
 
     public String join(Stream<String> iter) {
         return String.join(",", iter.toArray(String[]::new));
+    }
+
+    public ArrayList<String> getList(String key) {
+        return new ArrayList<>(Arrays.asList(get(key, "").split(",")));
     }
 }
