@@ -2,7 +2,6 @@ package com.company;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Main {
 
@@ -23,10 +22,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private static String join(Stream<String> iter) {
-        return String.join(",", iter.toArray(String[]::new));
     }
 
     private static ArrayList<String> getListFromProps(String key) {
@@ -94,41 +89,9 @@ public class Main {
         return child;
     }
 
-    private static void saveChild(Child child) {
-        String name = child.getUsername();
-        db.set("users." + name + ".type", "Child");
-
-        String modeNames = join(child.getModes().keySet().stream());
-        db.set("child."+name+".modes", modeNames);
-        db.set("child."+name+".redemptionAmount", String.valueOf(child.getRedemptionAmount()));
-
-        HashMap<UUID,Token> tokens = child.getTokens();
-        String tokenIds = join(tokens.keySet().stream().map(UUID::toString));
-        db.set("tokens."+name, tokenIds);
-
-        tokens.forEach((id, token) -> {
-            String time = String.valueOf(token.getDate().getTime());
-            db.set("token."+name+"."+id+".note", token.viewNote());
-            db.set("token."+name+"."+id+".time", time);
-        });
-    }
-
     public static void saveState() {
+        currentUser.sync(db);
         try {
-            String userType = currentUser.getClass().getSimpleName();
-            if (userType.equals("Parent")) {
-                Parent parent = (Parent) currentUser;
-
-                HashMap<String,Child> children = parent.getChildren();
-
-                String childNames = join(children.keySet().stream());
-                db.set("users."+parent.getUsername()+".children", childNames);
-
-                children.values().forEach(Main::saveChild);
-
-            } else if (userType.equals("Child")) {
-                saveChild((Child) currentUser);
-            }
             db.save();
         } catch (IOException e) {
             e.printStackTrace();

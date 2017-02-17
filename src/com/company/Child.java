@@ -85,4 +85,23 @@ public class Child extends User {
                 comparing((Token t)->t.getDate().getTime()).reversed()
         ).findFirst().get();
     }
+
+    public void sync(KeyValueStore db) {
+        String name = this.getUsername();
+        db.set("users." + name + ".type", "Child");
+
+        String modeNames = db.join(this.getModes().keySet().stream());
+        db.set("child."+name+".modes", modeNames);
+        db.set("child."+name+".redemptionAmount", String.valueOf(this.getRedemptionAmount()));
+
+        HashMap<UUID,Token> tokens = this.getTokens();
+        String tokenIds = db.join(tokens.keySet().stream().map(UUID::toString));
+        db.set("tokens."+name, tokenIds);
+
+        tokens.forEach((id, token) -> {
+            String time = String.valueOf(token.getDate().getTime());
+            db.set("token."+name+"."+id+".note", token.viewNote());
+            db.set("token."+name+"."+id+".time", time);
+        });
+    }
 }

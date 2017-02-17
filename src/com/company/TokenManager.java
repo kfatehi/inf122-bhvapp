@@ -23,4 +23,10 @@ public class TokenManager extends User {
     public Child getChild(String childName) {
         return getChildren().get(childName);
     }
+
+    public void sync(KeyValueStore db) {
+        String childNames = db.join(this.getChildren().keySet().stream());
+        db.set("users." + this.getUsername() + ".children", childNames);
+        this.getChildren().values().forEach(child -> child.sync(db));
+    }
 }

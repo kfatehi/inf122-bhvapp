@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.stream.Stream;
 
 /**
  * Created by keyvan on 2/16/17.
@@ -38,5 +39,9 @@ public class KeyValueStore {
 
     public void delete(String key) {
         props.remove(key);
+    }
+
+    public String join(Stream<String> iter) {
+        return String.join(",", iter.toArray(String[]::new));
     }
 }

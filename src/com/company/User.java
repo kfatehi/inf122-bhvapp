@@ -3,7 +3,7 @@ package com.company;
 /**
  * Created by keyvan on 2/3/17.
  */
-public class User {
+public abstract class User {
     private String username;
 
     public User(String _username) {
@@ -17,4 +17,6 @@ public class User {
     public void setUsername(String username) {
         this.username = username;
     }
+
+    public abstract void sync(KeyValueStore db);
 }
