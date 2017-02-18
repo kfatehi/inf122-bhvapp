@@ -3,6 +3,7 @@ out
 *.patch
 node_modules
 lib
+target
 
 # Created by https://www.gitignore.io/api/jetbrains
 

@@ -12,14 +12,12 @@ public class Main {
     public static void main(String[] args) {
         db = new KeyValueStore(args[0]);
         loadState();
-        WebServer.start(db);
-        userInterface.start();
+        loadUserInterface();
     }
 
     private static void loadState() {
         try {
             db.load();
-            loadUserInterface();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -29,6 +27,9 @@ public class Main {
         String uiMode = db.get("ui", "text");
         if (uiMode.equals("text")) {
             userInterface = new TextUserInterface();
+            userInterface.start();
+        } else if (uiMode.equals("web")) {
+            WebServer.start(db);
         } else {
             throw new Error("UI mode not implemented: "+uiMode);
         }

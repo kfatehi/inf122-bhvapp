@@ -2,37 +2,44 @@ package com.company;
 
 import org.json.simple.JsonArray;
 import org.json.simple.JsonObject;
+import spark.ModelAndView;
+import spark.template.freemarker.FreeMarkerEngine;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static spark.Spark.*;
 
 public class WebServer {
     public static void start(KeyValueStore db) {
-        staticFileLocation("/public");
+        staticFileLocation("public");
 
-        get("/children/:childName/tokens", (req, res) -> {
+        get("/children/:childName/chart/:start/:end", (req, res) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("name", req.params(":childName"));
+            attributes.put("start", req.params(":start"));
+            attributes.put("end", req.params(":end"));
+            return new ModelAndView(attributes, "chart.ftl");
+        }, new FreeMarkerEngine());
+
+        get("/children/:childName/tokens/:start/:end", (req, res) -> {
             String childName = req.params(":childName");
-            LocalDate start = LocalDate.parse(req.queryParams("start"));
-            LocalDate end = LocalDate.parse(req.queryParams("end"));
+            String startStr = req.params(":start");
+            String endStr = req.params(":end");
+            LocalDate start = LocalDate.parse(startStr);
+            LocalDate end = LocalDate.parse(endStr);
             Child child = Child.load(db, childName);
             if (child != null) {
-                System.out.println("1");
                 JsonArray days = new JsonArray();
-                System.out.println("2");
                 Stream.iterate(start, date -> date.plusDays(1))
                         .limit(ChronoUnit.DAYS.between(start, end) + 1)
                         .forEach(localDate -> {
-                            System.out.println("3");
                             JsonObject day = new JsonObject();
                             day.put("date", localDate.toString());
-                            System.out.println("3.2");
                             day.put("count", child.countTokensOnDay(localDate));
-                            System.out.println("4");
                             days.add(day.toJson());
                         });
                 res.type("application/json");

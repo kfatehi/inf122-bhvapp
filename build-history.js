@@ -1,6 +1,7 @@
 const uuid = require('uuid');
 const stream = require('fs').createWriteStream('timeseries.properties');
 
+stream.write('ui=web\n');
 stream.write('users.alice.type=Child\n');
 stream.write('child.alice.modes=positive\n');
 

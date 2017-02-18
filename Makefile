@@ -1,5 +1,6 @@
 BUILD=out/production/behave-app
-CLASSPATH=.:lib/*:$(BUILD)
+RESOURCES=res
+CLASSPATH=.:lib/*:$(RESOURCES):$(BUILD)
 
 SRC= \
 		 src/com/company/*.java
