@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         db = new KeyValueStore(args[0]);
         loadState();
+        WebServer.start(db);
         userInterface.start();
     }
 
@@ -43,7 +44,7 @@ public class Main {
             if (userType.equals("Parent")) {
                 currentUser = loadParent(username);
             } else if (userType.equals("Child")) {
-                currentUser = loadChild(username);
+                currentUser = Child.load(db, username);
             } else {
                 return false;
             }
@@ -62,27 +63,11 @@ public class Main {
     private static void loadChildren(Parent parent) {
         db.getList("users."+parent.getUsername()+".children").forEach((name)->{
             if (name.length() > 0) {
-                Child child = loadChild(name);
+                Child child = Child.load(db, name);
 
                 parent.addChild(child);
             }
         });
-    }
-
-    private static Child loadChild(String name) {
-        Child child = new Child(name);
-
-        db.getList("child."+name+".modes").forEach(child::setMode);
-        child.setRedemption(db.get("child."+name+".redemptionAmount", "0"));
-
-        db.getList("tokens."+name).forEach(id->{
-            String note = db.get("token."+name+"."+id+".note");
-            String time = db.get("token."+name+"."+id+".time");
-            Date date = new Date();
-            date.setTime(Long.parseLong(time));
-            child.addToken(date, note);
-        });
-        return child;
     }
 
     public static void saveState() {

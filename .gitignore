@@ -1,6 +1,8 @@
 out
-config.properties
+*.properties
 *.patch
+node_modules
+lib
 
 # Created by https://www.gitignore.io/api/jetbrains
 

@@ -1,12 +1,21 @@
+BUILD=out/production/behave-app
+CLASSPATH=.:lib/*:$(BUILD)
+
+SRC= \
+		 src/com/company/*.java
+
+deps:
+	mvn dependency:copy-dependencies -DoutputDirectory=lib
+	npm install
+
 build:
 	@echo "Building..."
-	@mkdir -p out/production/behave-app
-	@javac -d out/production/behave-app src/com/company/*
-
+	@mkdir -p $(BUILD)
+	@javac -d $(BUILD) -classpath $(CLASSPATH) $(SRC)
 
 run: build
 	@echo "Running..."
-	@java -classpath out/production/behave-app com.company.Main config.properties
+	@java -classpath $(CLASSPATH) com.company.Main config.properties
 	@echo "\nRun ended."
 
 autorun: run
@@ -21,3 +30,7 @@ test: build
 autotest: test
 	@echo "Waiting for source files to change..."
 	@fswatch -o src -o test.sh | xargs -n1 -I{} make test
+
+ts: build
+	@node build-history.js
+	@java -classpath $(CLASSPATH) com.company.Main timeseries.properties

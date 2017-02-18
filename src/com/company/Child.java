@@ -1,5 +1,9 @@
 package com.company;
 
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 import static java.util.Comparator.comparing;
@@ -103,5 +107,30 @@ public class Child extends User {
             db.set("token."+name+"."+id+".note", token.viewNote());
             db.set("token."+name+"."+id+".time", time);
         });
+    }
+
+    public static Child load(KeyValueStore db, String name) {
+        Child child = new Child(name);
+
+        db.getList("child."+name+".modes").forEach(child::setMode);
+        child.setRedemption(db.get("child."+name+".redemptionAmount", "0"));
+
+        db.getList("tokens."+name).forEach(id->{
+            String note = db.get("token."+name+"."+id+".note");
+            String time = db.get("token."+name+"."+id+".time");
+            Date date = new Date();
+            date.setTime(Long.parseLong(time));
+            child.addToken(date, note);
+        });
+        int foo = 1;
+        return child;
+    }
+
+    public long countTokensOnDay(LocalDate localDate) {
+        Instant instant = localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+        return getTokens().values().stream().map(Token::getDate).filter((date)->{
+            return fmt.format(date).equals(fmt.format(Date.from(instant)));
+        }).count();
     }
 }

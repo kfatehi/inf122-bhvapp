@@ -1,0 +1,24 @@
+{
+  "name": "behave-app",
+  "version": "1.0.0",
+  "description": "Please see the Makefile",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kfatehi/inf122-bhvapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kfatehi/inf122-bhvapp/issues"
+  },
+  "homepage": "https://github.com/kfatehi/inf122-bhvapp#readme",
+  "dependencies": {
+    "d3": "^4.5.0",
+    "uuid": "^3.0.1"
+  }
+}
