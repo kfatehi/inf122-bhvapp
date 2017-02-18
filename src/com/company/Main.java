@@ -13,6 +13,7 @@ public class Main {
         db = new KeyValueStore(args[0]);
         loadState();
         loadUserInterface();
+        userInterface.start();
     }
 
     private static void loadState() {
@@ -27,9 +28,8 @@ public class Main {
         String uiMode = db.get("ui", "text");
         if (uiMode.equals("text")) {
             userInterface = new TextUserInterface();
-            userInterface.start();
         } else if (uiMode.equals("web")) {
-            WebServer.start(db);
+            userInterface = new WebInterface();
         } else {
             throw new Error("UI mode not implemented: "+uiMode);
         }
@@ -90,5 +90,9 @@ public class Main {
             db.delete("token."+name+"."+id+".time");
             db.delete("token."+name+"."+id+".note");
         });
+    }
+
+    public static KeyValueStore getDatabase() {
+        return db;
     }
 }

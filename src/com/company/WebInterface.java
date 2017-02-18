@@ -13,8 +13,10 @@ import java.util.stream.Stream;
 
 import static spark.Spark.*;
 
-public class WebServer {
-    public static void start(KeyValueStore db) {
+public class WebInterface implements UserInterface {
+    @Override
+    public void start() {
+        KeyValueStore db = Main.getDatabase();
         staticFileLocation("public");
 
         get("/children/:childName/chart/:start/:end", (req, res) -> {
@@ -50,8 +52,5 @@ public class WebServer {
                 return "not found";
             }
         });
-
-        System.out.println("Spark listening on port 4567");
-
     }
 }
